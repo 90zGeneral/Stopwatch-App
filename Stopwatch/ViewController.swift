@@ -24,9 +24,11 @@ class ViewController: UIViewController {
     
     @IBAction func play(sender: AnyObject) {
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.result), userInfo: nil, repeats: true)
-        //run the result function every second once play button is tapped
-        
+        if !timer.valid {      //this prevents the time interval from speeding up when the play button is tapped consecutively
+            
+            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.result), userInfo: nil, repeats: true)
+            //run the result function every second once play button is tapped
+        }
     }
     
     @IBAction func pause(sender: AnyObject) {
