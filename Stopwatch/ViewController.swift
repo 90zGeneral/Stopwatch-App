@@ -14,19 +14,23 @@ class ViewController: UIViewController {
     
     var time = 0   //initial value for the timer
     
-    func result() {
+    func updateTimer() {
         time += 1   //increment time value by 1
         
-        timerResult.text = String(time) //convert time to a string in order to update the label
+        if time < 10 {
+            timerResult.text = "0\(time)" //convert time to a string in order to update the label as a double digit number
+        }else {
+            timerResult.text = String(time)  //another way to convert time into a string
+        }
     }
     
     @IBOutlet var timerResult: UILabel!
     
     @IBAction func play(sender: AnyObject) {
         
-        if !timer.valid {      //this prevents the time interval from speeding up when the play button is tapped consecutively
+        if !timer.valid {      //this prevents the time interval from speeding up/freaking out when the play button is tapped consecutively. Do not call NSTimer object if timer is currently running.
             
-            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.result), userInfo: nil, repeats: true)
+            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.updateTimer), userInfo: nil, repeats: true)
             //run the result function every second once play button is tapped
         }
     }
@@ -41,19 +45,24 @@ class ViewController: UIViewController {
 
         if time <= 10 {
             time = 0
-            timerResult.text = String(time)
+            timerResult.text = "0\(time)"
         }else {
-            time -= 10
-            timerResult.text = "\(time)"
+            if time < 20 {
+                time -= 10
+                timerResult.text = "0\(time)"
+            }else {
+                time -= 10
+                timerResult.text = String(time)
+            }
         }
-        //to reduce the timer by 10 or to 0 if its value is less than 10
+        //to reduce the timer by 10 or reset to 0 if its value is less than 10 while remaining a double digit number
         
     }
     
     @IBAction func refresh(sender: AnyObject) {
         
         time = 0
-        timerResult.text = String(time)
+        timerResult.text = "0\(time)"
         
         //reset the timer and label to 0
         
